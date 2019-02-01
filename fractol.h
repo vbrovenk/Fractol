@@ -15,10 +15,24 @@
 
 # include "libft.h"
 # include "mlx.h"
-#include <math.h>
+# include <math.h>
+# include <pthread.h>
 
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 640
+# define HEIGHT 480
+# define THREADS 4
+
+
+
+// UBUTNTU Buttons
+# define PLUS_ITER 65451
+# define MINUS_ITER 65453
+
+# define MOUSE_PLUS 4
+# define MOUSE_MINUS 5
+
+
+
 typedef	struct	s_fract
 {
 	void	*mlx_ptr;
@@ -29,6 +43,10 @@ typedef	struct	s_fract
 	int		size_line;
 	int		endian;
 
+	unsigned	int	iterations;
+
+	int		start;
+
 }				t_fract;
 
 typedef	struct	s_vars
@@ -38,12 +56,18 @@ typedef	struct	s_vars
 	double			min_im;
 	double			max_im;
 
+	double	z_re;
+	double	z_im;
+	double	c_im;
+	double	c_re;
+	double 			zoom;
+
 	double			re_factor;
 	double			im_factor;
 
-	unsigned	int	iterations;
 }				t_vars;
 
 void	mandelbrot(t_fract *fractol);
+void	set_threads(t_fract *fractol);
 
 #endif
