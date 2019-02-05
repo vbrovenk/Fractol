@@ -44,23 +44,33 @@ typedef	struct	s_fract
 	int		endian;
 
 	unsigned	int	iterations;
-
 	int		start;
 
-}				t_fract;
+	// check vars
+	double delta_re;
+	double delta_im;
 
-typedef	struct	s_vars
-{
 	double			min_re;
 	double			max_re;
 	double			min_im;
 	double			max_im;
 
+	double 			zoom;
+
+
+}				t_fract;
+
+typedef	struct	s_vars
+{
+	// double			min_re;
+	// double			max_re;
+	// double			min_im;
+	// double			max_im;
+
 	double	z_re;
 	double	z_im;
 	double	c_im;
 	double	c_re;
-	double 			zoom;
 
 	double			re_factor;
 	double			im_factor;

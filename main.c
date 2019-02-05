@@ -40,14 +40,34 @@ int				choose_key(int key, void *param)
 	return (0);
 }
 
-int			move_mouse(int key, int x, int y, void *param)
+int			move_mouse(int key, int x, int y, t_fract *fractol)
 {
 	// printf("key = %d | x = %d | y = %d\n", key, x, y);
+	double coeff;
 
 	if (key == MOUSE_PLUS)
 	{
-		
+		coeff = 9.0 / 10;
+		printf("coeff = %f\n", coeff);
 	}
+	else if (key == MOUSE_MINUS)
+	{
+		coeff = 10.0 / 9;
+		printf("coeff = %f\n", coeff);
+	}
+
+	fractol->delta_re *= coeff;
+	fractol->delta_im *= coeff;
+
+	// fractol->min_re = fractol->min_re + ((double)x / WIDTH) * fractol->delta_re / coeff * (1 - coeff);
+	// fractol->min_im = fractol->min_im - ((double)(HEIGHT - y) / HEIGHT) * fractol->delta_im / coeff * (1 - coeff);
+
+	fractol->min_re = fractol->min_re + ((double)x / WIDTH) * fractol->delta_re / coeff * (1 - coeff);
+	fractol->min_im = fractol->min_im - ((double)(HEIGHT - y) / HEIGHT) * fractol->delta_im / coeff * (1 - coeff);
+
+	printf("fractol->min_re = %f\n", fractol->min_re);
+	printf("fractol->min_im = %f\n", fractol->min_im);
+	set_threads(fractol);
 }
 
 void	ft_error(char *message)
@@ -71,8 +91,22 @@ void	init_struct(t_fract *fractol)
 	fractol->img_ptr = NULL;
 	fractol->image = NULL;
 	fractol->bits_per_pixel = 0;
-
 	fractol->iterations = 50;
+
+	//check vars
+	fractol->delta_re = 3.0;
+	fractol->delta_im = 2.4;
+
+	fractol->min_re = -2.0;
+	fractol->max_re = 1.0;
+
+	// fractol->min_im = -1.2;
+	// fractol->max_im = 1.2;
+
+	fractol->min_im = 1.2;
+	fractol->max_im = -1.2;
+
+	// fractol->zoom = 200;
 }
 
 void	check_fractals(char *name)

@@ -87,21 +87,19 @@
 // }
 
 
-void	init_vars(t_vars *vars)
+void	init_vars(t_fract *fractol, t_vars *vars)
 {
-	vars->min_re = -2.0;
-	vars->max_re = 1.0;
-	vars->min_im = -1.2;
-	vars->max_im = 1.2;
-
 	vars->z_re = 0;
 	vars->z_im = 0;
 	vars->c_im = 0;
 	vars->c_re = 0;
-	vars->zoom = 200;
 
-	vars->re_factor = (vars->max_re - vars->min_re) / (WIDTH - 1);
-	vars->im_factor = (vars->max_im - vars->min_im) / (HEIGHT - 1);
+	// do with DELTA example
+	vars->re_factor = (fractol->delta_re) / (WIDTH - 1);
+	vars->im_factor = (fractol->delta_im) / (HEIGHT - 1);
+	
+	// vars->re_factor = (vars->max_re - vars->min_re) / (WIDTH - 1);
+	// vars->im_factor = (vars->max_im - vars->min_im) / (HEIGHT - 1);
 }
 
 void	iters(t_fract *fractol, t_vars *vars, int x, int y)
@@ -138,7 +136,7 @@ void	mandelbrot(t_fract *fractol)
 	double tmp = 0;
 
 
-	init_vars(&vars);
+	init_vars(fractol, &vars);
 	y = fractol->start;
 	while (y < HEIGHT / 4 + fractol->start)
 	{
@@ -149,12 +147,15 @@ void	mandelbrot(t_fract *fractol)
 			vars.z_im = 0;
 
 			// ============ Variant 1 ============
-			// vars.c_re = x / vars.zoom + vars.min_re;
-			// vars.c_im = y / vars.zoom + vars.min_im;
+			// vars.c_re = x / fractol->zoom + fractol->min_re;
+			// vars.c_im = y / fractol->zoom + fractol->min_im;
 
 			// ============ Variant 2 ============
-			vars.c_re = vars.min_re + x * vars.re_factor;
-			vars.c_im = vars.max_im - y * vars.im_factor;
+			// vars.c_re = fractol->min_re + x * vars.re_factor;
+			// vars.c_im = fractol->min_im - (HEIGHT - y) * vars.im_factor;
+
+			vars.c_re = fractol->min_re + x * vars.re_factor;
+			vars.c_im = fractol->min_im - (HEIGHT - y) * vars.im_factor;
 
 			iters(fractol, &vars, x, y);
 			x++;
@@ -174,7 +175,7 @@ void	set_threads(t_fract *fractol)
 	{
 		fracts[i] = *fractol;
 		fracts[i].start = HEIGHT / THREADS * i;
-		printf("fracts[i].start = %d\n", fracts[i].start);
+		// printf("fracts[i].start = %d\n", fracts[i].start);
 		pthread_create(&threads[i], NULL, (void *)mandelbrot, &fracts[i]);
 		i++;
 	}
