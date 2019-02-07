@@ -29,13 +29,13 @@ int				choose_key(int key, void *param)
 	fractol = (t_fract*)param;
 	if (key == 53)
 		x_exit(param);
-	else if (key == PLUS_ITER && fractol->iterations < 70)
-		fractol->iterations++;
-	else if (key == MINUS_ITER && fractol->iterations > 0)
-		fractol->iterations--;
+	else if (key == PLUS_ITER)
+		fractol->max_iterations += 5;
+	else if (key == MINUS_ITER && fractol->max_iterations > 0)
+		fractol->max_iterations -= 5;
 
-	// mandelbrot(fractol);
-	set_threads(fractol);
+	// set_threads(fractol);
+	choose_fractal(fractol);
 
 	return (0);
 }
@@ -45,6 +45,7 @@ int			move_mouse(int key, int x, int y, t_fract *fractol)
 	// printf("key = %d | x = %d | y = %d\n", key, x, y);
 	double coeff;
 
+	coeff = 1;
 	if (key == MOUSE_PLUS)
 	{
 		coeff = 9.0 / 10;
@@ -67,7 +68,9 @@ int			move_mouse(int key, int x, int y, t_fract *fractol)
 
 	printf("fractol->min_re = %f\n", fractol->min_re);
 	printf("fractol->min_im = %f\n", fractol->min_im);
-	set_threads(fractol);
+	// set_threads(fractol);
+	choose_fractal(fractol);
+	return (0);
 }
 
 void	ft_error(char *message)
@@ -91,8 +94,9 @@ void	init_struct(t_fract *fractol)
 	fractol->img_ptr = NULL;
 	fractol->image = NULL;
 	fractol->bits_per_pixel = 0;
-	fractol->iterations = 50;
+	fractol->max_iterations = 50;
 
+	fractol->type_fractal = 0;
 	//check vars
 	fractol->delta_re = 3.0;
 	fractol->delta_im = 2.4;
@@ -109,11 +113,17 @@ void	init_struct(t_fract *fractol)
 	// fractol->zoom = 200;
 }
 
-void	check_fractals(char *name)
+void	check_fractals(t_fract *fractol, char *name)
 {
 	if (ft_strcmp(name, "mandelbrot") == 0)
 	{
-		ft_putstr("Rum Mandelbrot\n");
+		ft_putstr("Run Mandelbrot\n");
+		fractol->type_fractal = MANDELBROT;
+	}
+	else if (ft_strcmp(name, "julia") == 0)
+	{
+		ft_putstr("Run Julia\n");
+		fractol->type_fractal = JULIA;
 	}
 	else
 	{
@@ -128,17 +138,16 @@ int main(int argc, char *argv[])
 
 	if (argc != 2)
 		usage();
-	check_fractals(argv[1]);
 	fractol = (t_fract*)malloc(sizeof(t_fract));
 	init_struct(fractol);
+	check_fractals(fractol, argv[1]);
 	fractol->mlx_ptr = mlx_init();
 	fractol->win_ptr = mlx_new_window(fractol->mlx_ptr, WIDTH, HEIGHT, "FRACTOL");
 	fractol->img_ptr = mlx_new_image(fractol->mlx_ptr, WIDTH, HEIGHT);
 	fractol->image = (int *)mlx_get_data_addr(fractol->img_ptr,
 		&fractol->bits_per_pixel, &fractol->size_line, &fractol->endian);
-	// mandelbrot(fractol);
-	set_threads(fractol);
-
+	// set_threads(fractol);
+	choose_fractal(fractol);
 	mlx_hook(fractol->win_ptr, 2, 5, choose_key, fractol);
 	mlx_hook(fractol->win_ptr, 4, 0, move_mouse, fractol);
 	mlx_hook(fractol->win_ptr, 17, 1L << 17, x_exit, 0);

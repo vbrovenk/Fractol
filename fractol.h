@@ -18,18 +18,24 @@
 # include <math.h>
 # include <pthread.h>
 
-# define WIDTH 640
-# define HEIGHT 480
-# define THREADS 4
+# define MANDELBROT 1
+# define JULIA 2
 
-
-
-// UBUTNTU Buttons
-# define PLUS_ITER 65451
-# define MINUS_ITER 65453
+# define WIDTH 1000
+# define HEIGHT 800
+# define THREADS 8
 
 # define MOUSE_PLUS 4
 # define MOUSE_MINUS 5
+# define PLUS_ITER 24
+# define MINUS_ITER 27
+
+// UBUTNTU Buttons
+// # define PLUS_ITER 65451
+// # define MINUS_ITER 65453
+
+// # define MOUSE_PLUS 4
+// # define MOUSE_MINUS 5
 
 
 
@@ -43,7 +49,8 @@ typedef	struct	s_fract
 	int		size_line;
 	int		endian;
 
-	unsigned	int	iterations;
+	int		type_fractal;
+	unsigned	int	max_iterations;
 	int		start;
 
 	// check vars
@@ -62,11 +69,6 @@ typedef	struct	s_fract
 
 typedef	struct	s_vars
 {
-	// double			min_re;
-	// double			max_re;
-	// double			min_im;
-	// double			max_im;
-
 	double	z_re;
 	double	z_im;
 	double	c_im;
@@ -78,6 +80,6 @@ typedef	struct	s_vars
 }				t_vars;
 
 void	mandelbrot(t_fract *fractol);
-void	set_threads(t_fract *fractol);
+void	choose_fractal(t_fract *fractol);
 
 #endif

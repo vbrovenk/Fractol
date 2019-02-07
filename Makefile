@@ -20,7 +20,7 @@ SRC =	main.c \
 OBJ = $(SRC:.c=.o)
 MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
 
-UBUNTU_FLAGS = -lm -lmlx -lXext -lX11 -L minilibx -I minilibx
+#UBUNTU_FLAGS = -lm -lmlx -lXext -lX11 -L minilibx -I minilibx
 # CFLAGS = -Wall -Wextra -Werror
 
 OFF=\033[0m
@@ -38,11 +38,11 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C libft/
-	@gcc $(OBJ) $(LIBFT) $(UBUNTU_FLAGS) -o $(NAME) -lpthread
+	@gcc $(OBJ) $(LIBFT) $(MLX_FLAGS) -o $(NAME) -lpthread
 	@echo "$(PURPLEBOLD)fractol$(OFF)$(PURPLE) is ready"
 
 %.o: %.c $(INCLUDE)
-	@gcc -c $< -o $@ -I $(LIBFT_INC) $(UBUNTU_FLAGS)
+	@gcc -c $< -o $@ -I $(LIBFT_INC)
 
 clean:
 	@make clean -C libft
