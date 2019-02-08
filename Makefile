@@ -15,13 +15,17 @@ INCLUDE = fractol.h
 LIBFT_INC = ./libft/includes
 LIBFT = libft/libft.a
 SRC =	main.c \
-		mandelbrot.c
+		mandelbrot.c \
+		julia.c \
+		threads.c \
+		buttons.c \
+		set_colors.c
 
 OBJ = $(SRC:.c=.o)
 MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
 
 #UBUNTU_FLAGS = -lm -lmlx -lXext -lX11 -L minilibx -I minilibx
-# CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 OFF=\033[0m
 

@@ -20,15 +20,24 @@
 
 # define MANDELBROT 1
 # define JULIA 2
+# define SHIP 3
 
-# define WIDTH 1000
+# define WIDTH 800
 # define HEIGHT 800
 # define THREADS 8
+
+# define ARROW_LEFT 123
+# define ARROW_RIGHT 124
+# define ARROW_DOWN 125
+# define ARROW_UP 126
 
 # define MOUSE_PLUS 4
 # define MOUSE_MINUS 5
 # define PLUS_ITER 24
 # define MINUS_ITER 27
+# define SPACE 49
+# define SHIFT 257
+# define BACKSPACE 51
 
 // UBUTNTU Buttons
 // # define PLUS_ITER 65451
@@ -51,35 +60,44 @@ typedef	struct	s_fract
 
 	int		type_fractal;
 	unsigned	int	max_iterations;
+	int			color;
 	int		start;
+	double	min_re;
+	double	min_im;
+	double	delta;
+	int		space_on;
 
-	// check vars
-	double delta_re;
-	double delta_im;
-
-	double			min_re;
-	double			max_re;
-	double			min_im;
-	double			max_im;
-
-	double 			zoom;
-
-
+	int		mouse_x;
+	int		mouse_y;
 }				t_fract;
 
 typedef	struct	s_vars
 {
 	double	z_re;
 	double	z_im;
-	double	c_im;
 	double	c_re;
+	double	c_im;
 
-	double			re_factor;
-	double			im_factor;
-
+	double	factor_re;
+	double	factor_im;
+	double	tmp;
 }				t_vars;
 
 void	mandelbrot(t_fract *fractol);
+void	julia(t_fract *fractol);
+void	burning_ship(t_fract *fractol);
+
 void	choose_fractal(t_fract *fractol);
+int		choose_color(t_fract *fractol, int iters);
+void	init_vars(t_fract *fractol, t_vars *vars);
+void	iterations(t_fract *fractol, t_vars *vars, int x, int y);
+void	iterations_ship(t_fract *fractol, t_vars *vars, int x, int y);
+
+int		x_exit(void *param);
+int		choose_key(int key, t_fract *fractol);
+int		zoom_mouse(int key, int x, int y, t_fract *fractol);
+int		move_mouse(int x, int y, t_fract *fractol);
+
+int		get_color(t_fract *fractol, int iter);
 
 #endif
