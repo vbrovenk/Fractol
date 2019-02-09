@@ -62,3 +62,4 @@ void	burning_ship(t_fract *fractol)
 		y++;
 	}
 }
+

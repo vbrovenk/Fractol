@@ -16,27 +16,26 @@
 void	usage()
 {
 	ft_putstr("Usage: ./fractol [fractal]\n");
-	ft_putstr("[fractal] can be equal:\n- mandelbrot\n- julia\n");
-	ft_putstr("- burningship\n");
+	ft_putstr("[fractal] can be equal:\n> mandelbrot\n> julia\n");
+	ft_putstr("> burningship\n> tricorn\n");
+	ft_putstr("> zalupa\n");
 	exit(0);
 }
 
 void	check_fractals(t_fract *fractol, char *name)
 {
 	if (ft_strcmp(name, "mandelbrot") == 0)
-	{
-		ft_putstr("Run Mandelbrot\n");
 		fractol->type_fractal = MANDELBROT;
-	}
 	else if (ft_strcmp(name, "julia") == 0)
-	{
-		ft_putstr("Run Julia\n");
 		fractol->type_fractal = JULIA;
-	}
-	else if(ft_strcmp(name, "burningship") == 0)
-	{
-		ft_putstr("BurningShip\n");
+	else if (ft_strcmp(name, "burningship") == 0)
 		fractol->type_fractal = SHIP;
+	else if (ft_strcmp(name, "tricorn") == 0)
+		fractol->type_fractal = TRICORN;
+	else if (ft_strcmp(name, "zalupa") == 0)
+	{
+		ft_putstr("Zalupa\n");
+		fractol->type_fractal = ZALUPA;
 	}
 	else
 	{

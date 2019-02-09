@@ -86,7 +86,7 @@ void	set_threads(t_fract *fractol, void *function)
 	mlx_put_image_to_window(fractol->mlx_ptr, fractol->win_ptr,
 														fractol->img_ptr, 0, 0);
 	tmp = ft_itoa(fractol->max_iterations);
-	mlx_string_put(fractol->mlx_ptr, fractol->win_ptr, 700, 10, 0x000000, tmp);
+	mlx_string_put(fractol->mlx_ptr, fractol->win_ptr, 700, 10, 0x00FF00, tmp);
 	free(tmp);
 }
 
@@ -98,4 +98,8 @@ void	choose_fractal(t_fract *fractol)
 		set_threads(fractol, julia);
 	else if (fractol->type_fractal == SHIP)
 		set_threads(fractol, burning_ship);
+	else if (fractol->type_fractal == TRICORN)
+		set_threads(fractol, general_loop);
+	else if (fractol->type_fractal == ZALUPA)
+		set_threads(fractol, general_loop);
 }

@@ -21,6 +21,8 @@
 # define MANDELBROT 1
 # define JULIA 2
 # define SHIP 3
+# define TRICORN 4
+# define ZALUPA 5
 
 # define WIDTH 800
 # define HEIGHT 800
@@ -100,4 +102,6 @@ int		move_mouse(int x, int y, t_fract *fractol);
 
 int		get_color(t_fract *fractol, int iter);
 
+
+void	general_loop(t_fract *fractol);
 #endif

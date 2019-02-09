@@ -22,6 +22,7 @@ int				x_exit(void *param)
 
 void		reset_params(t_fract *fractol)
 {
+	fractol->max_iterations = 50;
 	fractol->min_re = -2.0;
 	fractol->min_im = -2.0;
 	fractol->delta = 4.0;
@@ -33,7 +34,7 @@ int				choose_key(int key, t_fract *fractol)
 		x_exit(fractol);
 	else if (key == PLUS_ITER)
 		fractol->max_iterations += 1;
-	else if (key == MINUS_ITER && fractol->max_iterations > 1)
+	else if (key == MINUS_ITER && fractol->max_iterations > 10)
 		fractol->max_iterations -= 1;
 	else if (key == ARROW_RIGHT)
 		fractol->min_re += 0.085 * fractol->delta;
@@ -46,7 +47,7 @@ int				choose_key(int key, t_fract *fractol)
 	else if (key == SPACE)
 		fractol->space_on *= -1;
 	else if (key == SHIFT)
-		fractol->color = (fractol->color + 1) % 2;
+		fractol->color = (fractol->color + 1) % 4;
 	else if (key == BACKSPACE)
 		reset_params(fractol);
 
