@@ -65,7 +65,7 @@ void	iterations_ship(t_fract *fractol, t_vars *vars, int x, int y)
 		fractol->image[x + y * WIDTH] = choose_color(fractol, n);
 }
 
-void	set_threads(t_fract *fractol, void *function)
+void	set_threads(t_fract *fractol)
 {
 	pthread_t	threads[THREADS];
 	t_fract		fracts[THREADS];
@@ -77,7 +77,8 @@ void	set_threads(t_fract *fractol, void *function)
 	{
 		fracts[i] = *fractol;
 		fracts[i].start = HEIGHT / THREADS * i;
-		pthread_create(&threads[i], NULL, (void *)function, &fracts[i]);
+		pthread_create(&threads[i], NULL, (void *)fractol->fracts_function,
+																	&fracts[i]);
 		i++;
 	}
 	i = -1;
@@ -93,13 +94,18 @@ void	set_threads(t_fract *fractol, void *function)
 void	choose_fractal(t_fract *fractol)
 {
 	if (fractol->type_fractal == MANDELBROT)
-		set_threads(fractol, mandelbrot);
+		fractol->fracts_function = mandelbrot;
 	else if (fractol->type_fractal == JULIA)
-		set_threads(fractol, julia);
+		fractol->fracts_function = julia;
 	else if (fractol->type_fractal == SHIP)
-		set_threads(fractol, burning_ship);
+		fractol->fracts_function = burning_ship;
 	else if (fractol->type_fractal == TRICORN)
-		set_threads(fractol, general_loop);
-	else if (fractol->type_fractal == ZALUPA)
-		set_threads(fractol, general_loop);
+		fractol->fracts_function = general_loop;
+	else if (fractol->type_fractal == JULIA_5)
+		fractol->fracts_function = julia;
+	else if (fractol->type_fractal == HALL)
+		fractol->fracts_function = general_loop;
+	else if (fractol->type_fractal == LEAF)
+		fractol->fracts_function = general_loop;
+	set_threads(fractol);
 }

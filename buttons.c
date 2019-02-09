@@ -12,7 +12,7 @@
 
 #include "fractol.h"
 
-int				x_exit(void *param)
+int		x_exit(void *param)
 {
 	param = NULL;
 	system("leaks fractol");
@@ -20,15 +20,30 @@ int				x_exit(void *param)
 	return (0);
 }
 
-void		reset_params(t_fract *fractol)
+void	print_help(t_fract *fractol)
 {
-	fractol->max_iterations = 50;
-	fractol->min_re = -2.0;
-	fractol->min_im = -2.0;
-	fractol->delta = 4.0;
+	if (fractol->help == 1)
+	{
+		mlx_string_put(fractol->mlx_ptr, fractol->win_ptr, 10, 10, 0xFFFFFF,
+		"BACKSPACE : RESET");
+		mlx_string_put(fractol->mlx_ptr, fractol->win_ptr, 10, 30, 0xFFFFFF,
+		"+         : ITERS IN");
+		mlx_string_put(fractol->mlx_ptr, fractol->win_ptr, 10, 50, 0xFFFFFF,
+		"-         : ITERS OUT");
+		mlx_string_put(fractol->mlx_ptr, fractol->win_ptr, 10, 70, 0xFFFFFF,
+		"SHIFT     : CHANGE COLOR");
+		mlx_string_put(fractol->mlx_ptr, fractol->win_ptr, 10, 90, 0xFFFFFF,
+		"ARROWS    : MOVING");
+		if (fractol->type_fractal == JULIA || fractol->type_fractal == JULIA_5)
+			mlx_string_put(fractol->mlx_ptr, fractol->win_ptr, 10, 110,
+					0xFFFFFF, "SPACE     : MOVE MOUSE");
+	}
+	else
+		mlx_string_put(fractol->mlx_ptr, fractol->win_ptr, 10, 10, 0xFFFFFF,
+																	"? : HELP");
 }
 
-int				choose_key(int key, t_fract *fractol)
+int		choose_key(int key, t_fract *fractol)
 {
 	if (key == 53)
 		x_exit(fractol);
@@ -50,12 +65,14 @@ int				choose_key(int key, t_fract *fractol)
 		fractol->color = (fractol->color + 1) % 4;
 	else if (key == BACKSPACE)
 		reset_params(fractol);
-
+	else if (key == HELP)
+		fractol->help *= -1;
 	choose_fractal(fractol);
+	print_help(fractol);
 	return (0);
 }
 
-int			zoom_mouse(int key, int x, int y, t_fract *fractol)
+int		zoom_mouse(int key, int x, int y, t_fract *fractol)
 {
 	double	temp_re;
 	double	temp_im;
@@ -80,6 +97,7 @@ int			zoom_mouse(int key, int x, int y, t_fract *fractol)
 	fractol->min_re = temp_re - ((double)x / WIDTH) * fractol->delta;
 	fractol->min_im = temp_im - ((double)y / HEIGHT) * fractol->delta;
 	choose_fractal(fractol);
+	print_help(fractol);
 	return (0);
 }
 
@@ -91,5 +109,6 @@ int		move_mouse(int x, int y, t_fract *fractol)
 		fractol->mouse_y = y;
 	}
 	choose_fractal(fractol);
+	print_help(fractol);
 	return (0);
 }

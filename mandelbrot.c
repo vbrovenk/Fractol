@@ -16,8 +16,8 @@
 void	mandelbrot(t_fract *fractol)
 {
 	t_vars	vars;
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 
 	init_vars(fractol, &vars);
 	y = fractol->start;
@@ -58,34 +58,11 @@ void	tricorn(t_fract *fractol, t_vars *vars, int x, int y)
 		fractol->image[x + y * WIDTH] = choose_color(fractol, n);
 }
 
-
-void	zalupa(t_fract *fractol, t_vars *vars, int x, int y)
-{
-	int n;
-
-	n = 0;
-	vars->z_re = vars->c_re;
-	vars->z_im = vars->c_im;
-	while (n < fractol->max_iterations)
-	{
-		vars->tmp = vars->z_re;
-		vars->z_re = sinh(vars->z_re);
-		vars->z_im = sinh(vars->z_im);
-		if (vars->z_re * vars->z_re + vars->z_im * vars->z_im > 0)
-			break ;
-		n++;
-	}
-	if (n == fractol->max_iterations)
-		fractol->image[x + y * WIDTH] = 0x000000;
-	else
-		fractol->image[x + y * WIDTH] = choose_color(fractol, n);
-}
-
 void	general_loop(t_fract *fractol)
 {
 	t_vars	vars;
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 
 	init_vars(fractol, &vars);
 	y = fractol->start;
@@ -100,10 +77,56 @@ void	general_loop(t_fract *fractol)
 			vars.c_im = fractol->min_im + y * vars.factor_im;
 			if (fractol->type_fractal == TRICORN)
 				tricorn(fractol, &vars, x, y);
-			else if (fractol->type_fractal == ZALUPA)
-				zalupa(fractol, &vars, x, y);
+			else if (fractol->type_fractal == HALL)
+				hall(fractol, &vars, x, y);
+			else if (fractol->type_fractal == LEAF)
+				leaf(fractol, &vars, x, y);
 			x++;
 		}
 		y++;
 	}
+}
+
+void	hall(t_fract *fractol, t_vars *vars, int x, int y)
+{
+	int	n;
+
+	n = 0;
+	while (n < fractol->max_iterations)
+	{
+		vars->tmp = vars->z_re;
+		vars->z_re = (vars->z_re * vars->z_re - vars->z_im * vars->z_im +
+			vars->c_re) / (vars->c_re * vars->c_re + vars->c_im * vars->c_im);
+		vars->z_im = 2 * vars->z_im * vars->tmp - vars->c_im /
+			(vars->c_re * vars->c_re + vars->c_im * vars->c_im);
+		if (vars->z_re * vars->z_re + vars->z_im * vars->z_im > 4)
+			break ;
+		n++;
+	}
+	if (n == fractol->max_iterations)
+		fractol->image[x + y * WIDTH] = 0x000000;
+	else
+		fractol->image[x + y * WIDTH] = choose_color(fractol, n);
+}
+
+void	leaf(t_fract *fractol, t_vars *vars, int x, int y)
+{
+	int	n;
+
+	n = 0;
+	while (n < fractol->max_iterations)
+	{
+		vars->tmp = vars->z_re;
+		vars->z_re = vars->z_re * vars->z_re - vars->z_im * vars->z_im +
+			vars->c_re / (vars->c_re * vars->c_re + vars->c_im * vars->c_im);
+		vars->z_im = 2 * vars->z_im * vars->tmp - vars->c_im /
+			(vars->c_re * vars->c_re + vars->c_im * vars->c_im);
+		if (vars->z_re * vars->z_re + vars->z_im * vars->z_im > 4)
+			break ;
+		n++;
+	}
+	if (n == fractol->max_iterations)
+		fractol->image[x + y * WIDTH] = 0x000000;
+	else
+		fractol->image[x + y * WIDTH] = choose_color(fractol, n);
 }
