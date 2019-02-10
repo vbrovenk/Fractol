@@ -10,3 +10,11 @@ cd fract
 make
 ./fractol julia
 ```
+### JULIA
+[Picture](https://github.com/vbrovenk/Fractol/blob/master/imgs/Screen%20Shot%202019-02-10%20at%203.46.37%20PM.png)
+
+### MANDELBROT
+[Picture](https://github.com/vbrovenk/Fractol/blob/master/imgs/Screen%20Shot%202019-02-10%20at%203.47.27%20PM.png)
+
+### BURNINGSHIP
+[Picture](https://github.com/vbrovenk/Fractol/blob/master/imgs/Screen%20Shot%202019-02-10%20at%203.49.29%20PM.png)
