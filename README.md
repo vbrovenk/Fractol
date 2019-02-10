@@ -5,7 +5,7 @@ They are created by repeating a simple process over and over in an ongoing feedb
 
 ### Install and run
 ```
-git clone fract
+git clone https://github.com/vbrovenk/Fractol.git fract
 cd fract
 make
 ./fractol julia
