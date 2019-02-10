@@ -107,5 +107,7 @@ void	choose_fractal(t_fract *fractol)
 		fractol->fracts_function = general_loop;
 	else if (fractol->type_fractal == LEAF)
 		fractol->fracts_function = general_loop;
+	else if (fractol->type_fractal == LAST)
+		fractol->fracts_function = mandelbrot;
 	set_threads(fractol);
 }

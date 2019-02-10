@@ -30,7 +30,10 @@ void	mandelbrot(t_fract *fractol)
 			vars.z_im = 0;
 			vars.c_re = fractol->min_re + x * vars.factor_re;
 			vars.c_im = fractol->min_im + y * vars.factor_im;
-			iterations(fractol, &vars, x, y);
+			if (fractol->type_fractal == MANDELBROT)
+				iterations(fractol, &vars, x, y);
+			else if (fractol->type_fractal == LAST)
+				last_fractal(fractol, &vars, x, y);
 			x++;
 		}
 		y++;
@@ -97,7 +100,7 @@ void	hall(t_fract *fractol, t_vars *vars, int x, int y)
 		vars->tmp = vars->z_re;
 		vars->z_re = (vars->z_re * vars->z_re - vars->z_im * vars->z_im +
 			vars->c_re) / (vars->c_re * vars->c_re + vars->c_im * vars->c_im);
-		vars->z_im = 2 * vars->z_im * vars->tmp - vars->c_im /
+		vars->z_im = -3 * vars->z_im * vars->tmp - vars->c_im /
 			(vars->c_re * vars->c_re + vars->c_im * vars->c_im);
 		if (vars->z_re * vars->z_re + vars->z_im * vars->z_im > 4)
 			break ;

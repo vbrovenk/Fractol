@@ -12,7 +12,7 @@
 
 #include "fractol.h"
 
-int		get_color_green(t_fract *fractol, int iters)
+static	int		get_color_green(t_fract *fractol, int iters)
 {
 	int red;
 	int green;
@@ -24,7 +24,7 @@ int		get_color_green(t_fract *fractol, int iters)
 	return (red << 16 | green << 8 | blue);
 }
 
-int		get_color_nice(t_fract *fractol, int iters)
+static	int		get_color_nice(t_fract *fractol, int iters)
 {
 	int		red;
 	int		green;
@@ -38,7 +38,7 @@ int		get_color_nice(t_fract *fractol, int iters)
 	return (red << 16 | green << 8 | blue);
 }
 
-int		blue_color(t_fract *fractol, int iters)
+static	int		blue_color(t_fract *fractol, int iters)
 {
 	int		red;
 	int		green;
@@ -52,48 +52,22 @@ int		blue_color(t_fract *fractol, int iters)
 	return (red << 16 | green << 8 | blue);
 }
 
-int		wbr_color(int iters)
-{
-	int	color;
-	int	tmp;
-
-	tmp = iters % 3;
-	if (tmp == 0)
-		color = 0xffffff;
-	else if (tmp == 1)
-		color = 0x0000ff;
-	else
-		color = 0xff0000;
-	return (color);
-}
-
-int		test_color(t_fract *fractol, int iters)
-{
-	int		red;
-	int		green;
-	int		blue;
-	double	k;
-
-	k = (double)iters / fractol->max_iterations;
-	red = 5 * pow(2 - k, 3) * k * 255;
-	green = 10 * pow(2 - k, 2) * pow(k, 2) * 255;
-	blue = 15 * (1 - k) * pow(k, 3) * 255;
-	return (red << 16 | green << 8 | blue);
-}
-
-int		choose_color(t_fract *fractol, int iters)
+int				choose_color(t_fract *fractol, int iters)
 {
 	int color;
 
 	color = 0;
-	color = test_color(fractol, iters);
-	// if (fractol->color == 0)
-	// 	color = get_color_green(fractol, iters);
-	// else if (fractol->color == 1)
-	// 	color = get_color_nice(fractol, iters);
-	// else if (fractol->color == 2)
-	// 	color = blue_color(fractol, iters);
-	// else if (fractol->color == 3)
-	// 	color = wbr_color(iters);
+	if (fractol->color == 0)
+		color = get_color_green(fractol, iters);
+	else if (fractol->color == 1)
+		color = get_color_nice(fractol, iters);
+	else if (fractol->color == 2)
+		color = violet_color(fractol, iters);
+	else if (fractol->color == 3)
+		color = wbr_color(iters);
+	else if (fractol->color == 4)
+		color = blue_color(fractol, iters);
+	else if (fractol->color == 5)
+		color = byr_color(fractol, iters);
 	return (color);
 }

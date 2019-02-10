@@ -12,16 +12,16 @@
 
 #include "fractol.h"
 
-void	usage(void)
+static	void	usage(void)
 {
 	ft_putstr("Usage: ./fractol [fractal]\n");
 	ft_putstr("[fractal] can be equal:\n> mandelbrot\n> julia\n");
 	ft_putstr("> burningship\n> tricorn\n");
-	ft_putstr("> julia5\n> hall\n> leaf\n");
+	ft_putstr("> julia5\n> hall\n> leaf\n> last\n");
 	exit(0);
 }
 
-void	check_fractals(t_fract *fractol, char *name)
+static	void	check_fractals(t_fract *fractol, char *name)
 {
 	if (ft_strcmp(name, "mandelbrot") == 0)
 		fractol->type_fractal = MANDELBROT;
@@ -37,11 +37,13 @@ void	check_fractals(t_fract *fractol, char *name)
 		fractol->type_fractal = HALL;
 	else if (ft_strcmp(name, "leaf") == 0)
 		fractol->type_fractal = LEAF;
+	else if (ft_strcmp(name, "last") == 0)
+		fractol->type_fractal = LAST;
 	else
 		usage();
 }
 
-void	reset_params(t_fract *fractol)
+void			reset_params(t_fract *fractol)
 {
 	fractol->max_iterations = 50;
 	fractol->min_re = -2.0;
@@ -49,7 +51,7 @@ void	reset_params(t_fract *fractol)
 	fractol->delta = 4.0;
 }
 
-void	init_struct(t_fract *fractol)
+static	void	init_struct(t_fract *fractol)
 {
 	fractol->mlx_ptr = NULL;
 	fractol->win_ptr = NULL;
@@ -68,7 +70,7 @@ void	init_struct(t_fract *fractol)
 	fractol->help = -1;
 }
 
-int		main(int argc, char *argv[])
+int				main(int argc, char *argv[])
 {
 	t_fract *fractol;
 

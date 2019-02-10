@@ -25,10 +25,11 @@
 # define JULIA_5 5
 # define HALL 6
 # define LEAF 7
+# define LAST 8
 
 # define WIDTH 800
 # define HEIGHT 800
-# define THREADS 8
+# define THREADS 16
 
 # define ARROW_LEFT 123
 # define ARROW_RIGHT 124
@@ -97,18 +98,23 @@ void			julia5_iters(t_fract *fractol, t_vars *vars, int x, int y);
 void			burning_ship(t_fract *fractol);
 void			hall(t_fract *fractol, t_vars *vars, int x, int y);
 void			leaf(t_fract *fractol, t_vars *vars, int x, int y);
+void			last_fractal(t_fract *fractol, t_vars *vars, int x, int y);
 
 void			choose_fractal(t_fract *fractol);
+int				get_color(t_fract *fractol, int iter);
 int				choose_color(t_fract *fractol, int iters);
+int				wbr_color(int iters);
+int				violet_color(t_fract *fractol, int iters);
+int				byr_color(t_fract *fractol, int iters);
+
 void			init_vars(t_fract *fractol, t_vars *vars);
 void			iterations(t_fract *fractol, t_vars *vars, int x, int y);
 void			iterations_ship(t_fract *fractol, t_vars *vars, int x, int y);
+void			general_loop(t_fract *fractol);
 
 int				x_exit(void *param);
 int				choose_key(int key, t_fract *fractol);
 int				zoom_mouse(int key, int x, int y, t_fract *fractol);
 int				move_mouse(int x, int y, t_fract *fractol);
 
-int				get_color(t_fract *fractol, int iter);
-void			general_loop(t_fract *fractol);
 #endif

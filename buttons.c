@@ -12,7 +12,7 @@
 
 #include "fractol.h"
 
-int		x_exit(void *param)
+int				x_exit(void *param)
 {
 	param = NULL;
 	system("leaks fractol");
@@ -20,7 +20,7 @@ int		x_exit(void *param)
 	return (0);
 }
 
-void	print_help(t_fract *fractol)
+static	void	print_help(t_fract *fractol)
 {
 	if (fractol->help == 1)
 	{
@@ -43,7 +43,7 @@ void	print_help(t_fract *fractol)
 																	"? : HELP");
 }
 
-int		choose_key(int key, t_fract *fractol)
+int				choose_key(int key, t_fract *fractol)
 {
 	if (key == 53)
 		x_exit(fractol);
@@ -62,7 +62,7 @@ int		choose_key(int key, t_fract *fractol)
 	else if (key == SPACE)
 		fractol->space_on *= -1;
 	else if (key == SHIFT)
-		fractol->color = (fractol->color + 1) % 4;
+		fractol->color = (fractol->color + 1) % 6;
 	else if (key == BACKSPACE)
 		reset_params(fractol);
 	else if (key == HELP)
@@ -72,7 +72,7 @@ int		choose_key(int key, t_fract *fractol)
 	return (0);
 }
 
-int		zoom_mouse(int key, int x, int y, t_fract *fractol)
+int				zoom_mouse(int key, int x, int y, t_fract *fractol)
 {
 	double	temp_re;
 	double	temp_im;
@@ -101,7 +101,7 @@ int		zoom_mouse(int key, int x, int y, t_fract *fractol)
 	return (0);
 }
 
-int		move_mouse(int x, int y, t_fract *fractol)
+int				move_mouse(int x, int y, t_fract *fractol)
 {
 	if (fractol->space_on == 1)
 	{

@@ -19,7 +19,8 @@ SRC =	main.c \
 		julia.c \
 		threads.c \
 		buttons.c \
-		set_colors.c
+		set_colors.c \
+		set_colors2.c
 
 OBJ = $(SRC:.c=.o)
 MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
@@ -46,7 +47,7 @@ $(NAME): $(OBJ)
 	@echo "$(PURPLEBOLD)fractol$(OFF)$(PURPLE) is ready"
 
 %.o: %.c $(INCLUDE)
-	@gcc -c $< -o $@ -I $(LIBFT_INC)
+	@gcc $(CFLAGS) -c $< -o $@ -I $(LIBFT_INC)
 
 clean:
 	@make clean -C libft
